@@ -12,7 +12,7 @@ from subprocess import call
 
 def myNetwork():
 
-    net = Mininet( topo=None,
+    net = Mininet( topo=None,           # net is a Mininet() object
                    build=False,
                    ipBase='10.0.0.0/8')
 
@@ -23,7 +23,7 @@ def myNetwork():
                       port=6633)
 
     info( '*** Add switches\n')
-    s2 = net.addSwitch('s2', cls=OVSKernelSwitch)
+    s2 = net.addSwitch('s2', cls=OVSKernelSwitch) # s1, s2 are switch objects
     s1 = net.addSwitch('s1', cls=OVSKernelSwitch)
 
     info( '*** Add hosts\n')
@@ -33,10 +33,10 @@ def myNetwork():
     h1 = net.addHost('h1', cls=Host, ip='10.0.0.1', defaultRoute=None)
 
     info( '*** Add links\n')
-    net.addLink(h1, s1)
+    net.addLink(h1, s1)      # creates a Link() object
     net.addLink(h4, s1)
     net.addLink(h2, s1)
-    net.addLink(h3, s1)
+    net.addLink(h3, s1) 
     net.addLink(s1, s2)
 
     info( '*** Starting network\n')
@@ -50,9 +50,17 @@ def myNetwork():
     net.get('s1').start([c0])
 
     info( '*** Post configure switches and hosts\n')
-
+    startServer(h4) 
     CLI(net)
+    stopServer(h4)
     net.stop()
+
+def stopServer(h):
+    cmd( 'xterm h')
+    h.cmd( 'python -m SimpleHTTPServer 80 &' )
+
+def stopServer(h):
+    h.cmd( 'kill %python' )
 
 if __name__ == '__main__':
     setLogLevel( 'info' )
