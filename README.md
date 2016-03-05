@@ -31,3 +31,10 @@ This runs a custom topology with a Server on host 4
 ##Useful tools
 ####Mininet GUI
 http://www.brianlinkletter.com/how-to-use-miniedit-mininets-graphical-user-interface/
+
+
+##Troubleshooting
+For Error:
+`Exception: Error creating interface pair (s1-eth1,s2-eth1): RTNETLINK answers: File exists`
+run
+`$ sudo mn -c`
