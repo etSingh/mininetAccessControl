@@ -6,22 +6,28 @@ http://www.brianlinkletter.com/set-up-mininet/
 ## Topology
 ![topology](resources/Topology.jpg)
 
-## Init
-###-> in virtual machine 
+## Topology of authTopo.py
+![Topology](resources/authTopo.png)
+
+## Setup
+###-> in virtual machine
 $ sudo dhclient eth1
 $ ifconfig eth1
 
 ###-> in Terminal
-// in terminal
 `$ ssh -Y mininet@192.168.56.101`
+or
+`$ ssh -X mininet@192.168.56.101'
 
 *user: mininet | pw: mininet
 
-## Add custom topology
+## Run authTopo.py
+1. Clone this repo in your virtual machine 
+2. cd into `mininetAccessControl`
+3. Make authTopo executable by running `$ sudo chmod 777 authTopo.py`
+3. run `$ sudo ./authTopo.py`
 
-`$ nano ~/mininet/custom/authTopo.py`
-
-*paste the content of authTopo.py from the github repo
-
-## test custom topologie
-`$ sudo mn --custom ~/mininet/custom/authTopo.py --topo authtopo --te`
+This runs a custom topology with a Server on host 4
+##Useful tools
+####Mininet GUI
+http://www.brianlinkletter.com/how-to-use-miniedit-mininets-graphical-user-interface/

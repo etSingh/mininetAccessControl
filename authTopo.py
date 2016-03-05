@@ -1,27 +1,68 @@
-from mininet.topo import Topo
+#!/usr/bin/python
 
-class AuthTopo( Topo ):
-    "Simple topology example."
+from mininet.net import Mininet
+from mininet.node import Controller, RemoteController, OVSController
+from mininet.node import CPULimitedHost, Host, Node
+from mininet.node import OVSKernelSwitch, UserSwitch
+from mininet.node import IVSSwitch
+from mininet.cli import CLI
+from mininet.log import setLogLevel, info
+from mininet.link import TCLink, Intf
+from subprocess import call
 
-    def __init__( self ):
-        "Create custom topo."
+def myNetwork():
 
-        # Initialize topology
-        Topo.__init__( self )
+    net = Mininet( topo=None,           # net is a Mininet() object
+                   build=False,
+                   ipBase='10.0.0.0/8')
 
-        # Add hosts
-        host1 = self.addHost( 'h1' )
-        host2 = self.addHost( 'h2' )
-        host3 = self.addHost( 'h3' )
+    info( '*** Adding controller\n' )
+    c0=net.addController(name='c0',
+                      controller=Controller,
+                      protocol='tcp',
+                      port=6633)
 
-        # Add switches
-        switch1 = self.addSwitch( 's4' )
-        switch2 = self.addSwitch( 's5' )
+    info( '*** Add switches\n')
+    s2 = net.addSwitch('s2', cls=OVSKernelSwitch) # s1, s2 are switch objects
+    s1 = net.addSwitch('s1', cls=OVSKernelSwitch)
 
-        # Add links
-        self.addLink( host1, switch1 )
-        self.addLink( host2, switch1 )
-        self.addLink( host3, switch1 )
-        self.addLink( switch1, switch2 )
+    info( '*** Add hosts\n')
+    h4 = net.addHost('h4', cls=Host, ip='10.0.0.4', defaultRoute=None)
+    h3 = net.addHost('h3', cls=Host, ip='10.0.0.3', defaultRoute=None)
+    h2 = net.addHost('h2', cls=Host, ip='10.0.0.2', defaultRoute=None)
+    h1 = net.addHost('h1', cls=Host, ip='10.0.0.1', defaultRoute=None)
 
-topos = { 'authtopo': ( lambda: AuthTopo() ) }
+    info( '*** Add links\n')
+    net.addLink(h1, s1)      # creates a Link() object
+    net.addLink(h4, s1)
+    net.addLink(h2, s1)
+    net.addLink(h3, s1) 
+    net.addLink(s1, s2)
+
+    info( '*** Starting network\n')
+    net.build()
+    info( '*** Starting controllers\n')
+    for controller in net.controllers:
+        controller.start()
+
+    info( '*** Starting switches\n')
+    net.get('s2').start([c0])
+    net.get('s1').start([c0])
+
+    info( '*** Post configure switches and hosts\n')
+    startServer(h4) 
+    CLI(net)
+    stopServer(h4)
+    net.stop()
+
+def startServer(h):
+    h.cmd( 'python -m SimpleHTTPServer 80 &' )
+    print ( h, ':Server running on port 80' )
+
+def stopServer(h):
+    h.cmd( 'kill %python' )
+
+if __name__ == '__main__':
+    setLogLevel( 'info' )
+    myNetwork()
+
