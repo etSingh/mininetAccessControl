@@ -55,7 +55,7 @@ def myNetwork():
     stopServer(h4)
     net.stop()
 
-def stopServer(h):
+def startServer(h):
     cmd( 'xterm h')
     h.cmd( 'python -m SimpleHTTPServer 80 &' )
 
