@@ -7,7 +7,7 @@ http://www.brianlinkletter.com/set-up-mininet/
 ![topology](resources/Topology.jpg)
 
 ## Init
-###-> in virtual machine 
+###-> in virtual machine
 $ sudo dhclient eth1
 $ ifconfig eth1
 
@@ -24,4 +24,8 @@ $ ifconfig eth1
 *paste the content of authTopo.py from the github repo
 
 ## test custom topologie
-`$ sudo mn --custom ~/mininet/custom/authTopo.py --topo authtopo --te`
+`$ sudo mn --custom ~/mininet/custom/authTopo.py --topo authtopo --test pingall`
+
+##Useful tools
+####Mininet GUI
+http://www.brianlinkletter.com/how-to-use-miniedit-mininets-graphical-user-interface/
