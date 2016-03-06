@@ -56,8 +56,8 @@ def myNetwork():
     net.stop()
 
 def startServer(h):
-    CLI( 'xterm h')
     h.cmd( 'python -m SimpleHTTPServer 80 &' )
+    print ( h, ':Server running on port 80' )
 
 def stopServer(h):
     h.cmd( 'kill %python' )
