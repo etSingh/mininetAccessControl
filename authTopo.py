@@ -18,7 +18,7 @@ def myNetwork():
 
     info( '*** Adding controller\n' )
     c0=net.addController(name='c0',
-                      controller=Controller,
+                      controller=RemoteController,
                       protocol='tcp',
                       port=6633)
 
