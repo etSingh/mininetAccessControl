@@ -37,9 +37,11 @@ or
 2. make sure no other controller is running <br>
 ```$ sudo killall controller```
 
+3. paste `poxController.py` and `allowedMacs.txt` to `/home/mininet/pox/pox/misc/`
+
 3. run pox testController <br>
 ```$ cd pox
-$./pox.py log.level --DEBUG misc.of_tutorial```
+$./pox.py log.level --DEBUG misc.poxController```
 
 This runs a custom topology with a Server on host 4
 ##Useful tools
