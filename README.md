@@ -31,15 +31,15 @@ or
 7. 
 
 ## Use Pox
-1. install pox
-$ git clone http://github.com/noxrepo/pox
+1. install pox <br>
+```$ git clone http://github.com/noxrepo/pox```
 
-2. make sure no other controller is running
-$ sudo killall controller
+2. make sure no other controller is running <br>
+```$ sudo killall controller```
 
-3. run pox testController
-$ cd pox
-$./pox.py log.level --DEBUG misc.of_tutorial
+3. run pox testController <br>
+```$ cd pox
+$./pox.py log.level --DEBUG misc.of_tutorial```
 
 This runs a custom topology with a Server on host 4
 ##Useful tools
