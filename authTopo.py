@@ -22,9 +22,8 @@ def myNetwork():
                       protocol='tcp',
                       port=6633)
 
-    info( '*** Add switches\n')
-    s2 = net.addSwitch('s2', cls=OVSKernelSwitch) # s1, s2 are switch objects
-    s1 = net.addSwitch('s1', cls=OVSKernelSwitch)
+    info( '*** Add switches\n') 
+    s1 = net.addSwitch('s1', cls=OVSKernelSwitch) # s1 is a switch object
 
     info( '*** Add hosts\n')
     h4 = net.addHost('h4', cls=Host, ip='10.0.0.4', defaultRoute=None)
@@ -38,7 +37,6 @@ def myNetwork():
     net.addLink(h4, s1)
     net.addLink(h2, s1)
     net.addLink(h3, s1) 
-    net.addLink(s1, s2)
 
     info( '*** Starting network\n')
     net.build()
@@ -47,7 +45,6 @@ def myNetwork():
         controller.start()
 
     info( '*** Starting switches\n')
-    net.get('s2').start([c0])
     net.get('s1').start([c0])
 
     info( '*** Post configure switches and hosts\n')
