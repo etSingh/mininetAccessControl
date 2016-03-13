@@ -32,6 +32,7 @@ def myNetwork():
     h2 = net.addHost('h2', cls=Host, ip='10.0.0.2', defaultRoute=None)
     h1 = net.addHost('h1', cls=Host, ip='10.0.0.1', defaultRoute=None)
 
+
     info( '*** Add links\n')
     net.addLink(h1, s1)      # creates a Link() object
     net.addLink(h4, s1)
@@ -51,6 +52,9 @@ def myNetwork():
 
     info( '*** Post configure switches and hosts\n')
     startServer(h4) 
+    hosts = [h1, h2, h3, h4]
+    setMacAddress(hosts)
+    printInfo(hosts)
     CLI(net)
     stopServer(h4)
     net.stop()
@@ -61,6 +65,21 @@ def startServer(h):
 
 def stopServer(h):
     h.cmd( 'kill %python' )
+
+def setMacAddress(hosts):
+    a = 42
+    address=''
+    for h in hosts:
+        for x in range(6):
+            address += str(a) + ':' 
+        h.setMAC(address)
+        a += 1
+        address=''
+
+def printInfo(hosts):
+    for h in hosts:
+        print "Host", h.name, "has IP address", h.IP(), "and MAC address", h.MAC()
+    
 
 if __name__ == '__main__':
     setLogLevel( 'info' )
