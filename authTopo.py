@@ -31,12 +31,15 @@ def myNetwork():
     h2 = net.addHost('h2', cls=Host, ip='10.0.0.2', defaultRoute=None)
     h1 = net.addHost('h1', cls=Host, ip='10.0.0.1', defaultRoute=None)
 
-
+    info( '*** Add NAT\n')
+    nat = net.addNAT( 'nat', connect=True, inNamespace=False, ip='10.0.0.254' )
+    
     info( '*** Add links\n')
     net.addLink(h1, s1)      # creates a Link() object
     net.addLink(h4, s1)
     net.addLink(h2, s1)
-    net.addLink(h3, s1) 
+    net.addLink(h3, s1)
+    net.addLink(nat, s1) 
 
     info( '*** Starting network\n')
     net.build()
