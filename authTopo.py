@@ -57,7 +57,7 @@ def myNetwork():
     net.stop()
 
 def startServer(h):
-    h.cmd( 'python -m SimpleHTTPServer 80 &' )
+    h.cmd( 'python server.py &' )
     print ( h, ':Server running on port 80' )
 
 def stopServer(h):
