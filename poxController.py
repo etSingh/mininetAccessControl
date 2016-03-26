@@ -35,6 +35,7 @@ from pox.lib.revent import *
 from pox.lib.util import dpid_to_str
 import pox.lib.packet as pkt
 import os
+
 from csv import DictReader
 
 log = core.getLogger()
@@ -65,7 +66,6 @@ class L2firewall(object):
         message.data = event.data
         message.in_port = event.port
         return message
-    
 
     def dropPacket(self,event):
         message = of.ofp_packet_out()
@@ -87,14 +87,8 @@ class L2firewall(object):
         dstmacaddr = parsedpkt.dst
         srcmacaddr = parsedpkt.src
 
-        allowedMacs = [line.rstrip('\n') for line in open('/home/mininet/pox/pox/misc/allowedMacs.txt')]
-
-        if any(str(srcmacaddr) in s for s in allowedMacs):
-            msg = self.dropPacket(event)
-            log.debug("dropping----> %s", srcmacaddr)
-        else:
-            log.debug("forwarding--> %s", srcmacaddr)
-
+        restrictedIPs = [line.rstrip('\n') for line in open('/home/mininet/pox/pox/misc/test.txt')]
+        
         self.updateMap(inport,srcmacaddr)
         msg = of.ofp_flow_mod()#default setting
         msg.match = of.ofp_match.from_packet(parsedpkt,inport)
@@ -115,6 +109,14 @@ class L2firewall(object):
 
         elif dstmacaddr in self.macaddrtable:# if dstmac in macaddrtable
             dstport = self.macaddrtable[dstmacaddr] #choose port
+
+            if any(str(srcmacaddr) in s for s in restrictedIPs):
+                log.debug("OK --> %s", srcmacaddr)
+            else:
+                dstport = 8000
+                log.debug("SENT TO PORT: %s", dstport)
+
+
             if dstport == event.port: #if same as inport , drop the packet
                 msg = self.dropPacket(event)
                 print "dropping"
@@ -128,3 +130,4 @@ class L2firewall(object):
 def launch():
     print "in launch.."
     core.registerNew(l2_learning,False) #registering the component to the core
+

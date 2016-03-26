@@ -2,19 +2,31 @@
 <html>
 <head>
 	<meta charset=utf-8 />
-	<title></title>
-<!-- 	<link rel="stylesheet" type="text/css" media="screen" href="css/master.css" /> -->
+	<title>Configure the list of restrictions</title>
+
+	<script src="ips.js"></script>
+	<script src="functionality.js"></script>
+
 
 </head>
 <body>
-	<h1>New User</h1>
+	<h1>IP LIST CONFIG</h1>
 
-	<p>Please, enter a username</p>
+	<p id="demo">Log in</p>
 
-	<form name="search" action="done.html" method="post">
-		Search: <input type="text" name="key">
-		<input type="submit" value="Submit">
+	<form id="login" name="search">
+		username: <input id="user" type="text" name="user">
+		password: <input id="pw" type="text" name="user">
+		<button onclick="login();return false;"">LOGIN</button>
 	</form> 
+
+
+	<form id="ipForm" ></form>
+
+	<form style="display:none" id="submitForm" action="done.html" method="post"></form>
+	
+	<button style="display:none" id="plusBtn" onclick="addEmptyField();return false;"">+</button>
+	<button style="display:none" id="saveBtn" onclick="save();return false;"">save</button>
 
 
 </body>
