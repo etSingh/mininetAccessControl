@@ -4,7 +4,8 @@ import logging
 import cgi
 import sys
 
-PORT = 8000
+PORT = 80
+noOfIp = 0
 
 class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
@@ -24,7 +25,19 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                      })
 
         with open("test.txt", "a") as myfile:
-             myfile.write(str(form.getvalue('key')) + ":" + str(form.getvalue('pw')) + "\n")
+             ip = (form.getvalue('output'))
+             print "the ip is", ip 
+             global noOfIp
+             print "noOfIp=", noOfIp
+             x = noOfIp
+             noOfIp = len(ip)
+             if (isinstance(ip, basestring)):
+                myfile.write(ip.strip() + "\n")
+             else:
+                for i in range(noOfIp):
+                    myfile.write(ip[i] + "\n")
+
+                
         
 
         SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)

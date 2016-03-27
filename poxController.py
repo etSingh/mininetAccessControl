@@ -113,7 +113,7 @@ class L2firewall(object):
             if any(str(srcmacaddr) in s for s in restrictedIPs):
                 log.debug("OK --> %s", srcmacaddr)
             else:
-                dstport = 8000
+                #dstport = 8000
                 log.debug("SENT TO PORT: %s", dstport)
 
 

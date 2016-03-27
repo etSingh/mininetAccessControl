@@ -47,7 +47,6 @@ function displayIPList() {
 
 function save() {
     var result = "var ips =[\n";
-
     for (var i = 0; i <= numberOfIps; i++) {
 
         var id = "field" + i;
@@ -57,10 +56,12 @@ function save() {
         }
     }
     result += "\n];";
+    console.log(result);
 
-
+    var result = document.getElementById(id).value
+    console.log("Hello");
     var newdiv = document.createElement('div');
-    newdiv.innerHTML = "<input type='text' id='ips" + result + "'>";
+    newdiv.innerHTML = "<input type='text' name='output' value='" + result + "'>";
     document.getElementById("submitForm").appendChild(newdiv);
 
     document.getElementById("submitForm").submit();
