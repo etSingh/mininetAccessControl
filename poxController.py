@@ -35,6 +35,7 @@ from pox.lib.revent import *
 from pox.lib.util import dpid_to_str
 import pox.lib.packet as pkt
 import os
+from pox.lib.addresses import IPAddr, IPAddr6, EthAddr
 
 from csv import DictReader
 
@@ -87,8 +88,8 @@ class L2firewall(object):
         dstmacaddr = parsedpkt.dst
         srcmacaddr = parsedpkt.src
 
-        restrictedIPs = [line.rstrip('\n') for line in open('/home/mininet/pox/pox/misc/test.txt')]
-        
+        restrictedIPs = [line.rstrip('\n') for line in open('/home/mininet/development/mininetAccessControl/test.txt')]
+        #log.debug("The restricted IPs are", restrictedIPs)
         self.updateMap(inport,srcmacaddr)
         msg = of.ofp_flow_mod()#default setting
         msg.match = of.ofp_match.from_packet(parsedpkt,inport)
@@ -110,8 +111,9 @@ class L2firewall(object):
         elif dstmacaddr in self.macaddrtable:# if dstmac in macaddrtable
             dstport = self.macaddrtable[dstmacaddr] #choose port
 
-            if any(str(srcmacaddr) in s for s in restrictedIPs):
+            if any(('31.192.117.132') in s for s in restrictedIPs):
                 log.debug("OK --> %s", srcmacaddr)
+                action = of.ofp_action_nw_addr.set_dst(IPAddr("10.0.0.4"))
             else:
                 #dstport = 8000
                 log.debug("SENT TO PORT: %s", dstport)
